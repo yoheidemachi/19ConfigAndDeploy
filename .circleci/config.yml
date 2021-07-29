@@ -16,6 +16,20 @@ jobs:
           name: Configure server
           command: |
             ansible-playbook -i inventory.txt main-remote.yml
+  smoke_test:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - run:
+          name: check on a website
+          command: |
+            if curl -s --head "https://google.com" 
+            then
+              echo "It worked!"
+            else
+              echo "It failed"
+            fi
 
 workflows:
   my_workflow:
